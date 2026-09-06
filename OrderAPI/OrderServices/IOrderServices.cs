@@ -29,27 +29,61 @@ namespace OrderAPI.OrderServices
                 if (!string.IsNullOrEmpty(response.Message.Value))
                 {
                     //check if topic == add product topic
-                    if(response.Topic == AddProductTopic)
+                    if (response.Topic == AddProductTopic)
                     {
                         var product = JsonSerializer.Deserialize<Product>(response.Message.Value);
                         Products.Add(product!);
                     }
+                    else
+                    {
+                        var productId = int.Parse(response.Message.Value);
+                        var product = Products.FirstOrDefault(p => p.Id == productId);
+                        if (product != null)
+                        {
+                            Products.Remove(product);
+                        }
+                    }
+
+
 
                 }
             }
         }
-        public void AddOrder(Order order)
+        private void ConstructProduct()
         {
-            throw new NotImplementedException();
+            Console.Clear();
+            foreach (var item in Products)
+            {
+                Console.WriteLine($"ID:{item.Id}, Name: {item.Name}, Price: {item.Price}");
+            }
+
+
         }
-        public List<OrderSummary> GetOrderSummary()
+
+        public void AddOrder(Order order) => Orders.Add(order);
+
+
+        public List<OrderSummary> GetOrdersSummary()
         {
-            throw new NotImplementedException();
+            var orderSummary = new List<OrderSummary>();
+            foreach (var order in Orders)
+            {
+                var product = Products.FirstOrDefault(p => p.Id == order.ProductId);
+
+                orderSummary.Add(new OrderSummary
+                {
+                    OrderId = order.Id,
+                    ProductId = product.Id,
+                    ProductName = product.Name,
+                    ProductPrice = product.Price ?? 0,
+                    OrderQuantity = order.Quantity,
+
+                });
+            }
+            return orderSummary;
         }
-        public List<Product> GetProducts()
-        {
-            throw new NotImplementedException();
-        }
+        public List<Product> GetProducts() => Products;
+
 
 
     }
