@@ -16,8 +16,8 @@ namespace OrderAPI.OrderServices
     {
         private const string AddProductTopic = "add-product-topic";
         private const string DeleteProductTopic = "delete-product-topic";
-        public List<Product> Products { get; set; }
-        public List<Order> Orders { get; set; }
+        public List<Product> Products = [];
+        public List<Order> Orders = [];
 
         public async Task StartConsumingService()
         {
