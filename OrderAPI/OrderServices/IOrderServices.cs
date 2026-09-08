@@ -43,6 +43,7 @@ namespace OrderAPI.OrderServices
                             Products.Remove(product);
                         }
                     }
+                    ConstructProduct();
 
 
 
@@ -63,7 +64,7 @@ namespace OrderAPI.OrderServices
         public void AddOrder(Order order) => Orders.Add(order);
 
 
-        public List<OrderSummary> GetOrdersSummary()
+        public List<OrderSummary> GetOrderSummary()
         {
             var orderSummary = new List<OrderSummary>();
             foreach (var order in Orders)
@@ -84,8 +85,7 @@ namespace OrderAPI.OrderServices
         }
         public List<Product> GetProducts() => Products;
 
-
-
+        
     }
 
 }
